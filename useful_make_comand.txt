@@ -1,0 +1,5 @@
+======================================================
+Run below commnds in Linux source root folder
+======================================================
+$ make help
+$ make pdfdocs
