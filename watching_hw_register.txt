@@ -1,0 +1,24 @@
+=======================================================
+Watching hardware register using "busyox devmem" tool
+=======================================================
+
+$sudo apt install busybox devmem
+Usage:
+devmem ADDRESS [WIDTH [VALUE]]
+
+Read/write from physical address
+
+        ADDRESS Address to act upon
+        WIDTH   Width (8/16/...)
+        VALUE   Data to be written
+
+Example:-
+$sudo busybox devmem 0x481a0140 32
+o/p - 0x00060000
+
+Note - If by running above command error comes like "Bus Error",
+then probably clock to the particular hardware module is disabled
+whose hardware register is being queried.
+So, the best thing is we should run an application which keeps that 
+hardware module enabled. For this we can use two different consles, one 
+by using Putty and another one by using serial console.
