@@ -60,4 +60,7 @@ Find this egrep pattern: PAGE_SIZE
 Find this file:
 {Use TAB key to switch between these two screens.}
 
+To exit CSCOPE use CTRL+Z key.
+
+
 
