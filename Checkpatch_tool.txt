@@ -1,0 +1,31 @@
+/*==================================================================================
+*********************************Checkpatch Tool*************************************
+====================================================================================*/
+=> Description:-
+checkpatch.pl is mainly used to verify stylistic coding conventions so that anyone 
+attempting to submit code upstream into the Linux kernel will be sure to have met the
+basic coding style requirements by running this script first (and, if possible, have no
+resulting errors or warnings). 
+
+=>Source:-
+This script comes with linux kernel source tree. In path <linux-src>/scripts.
+This script can also be downloaded from path - "https://github.com/torvalds/linux/tree/master/scripts"
+
+=>Usage:-
+->To use this tool from any path, copy this script to /bin folder of your Linux machine.
+$cp checkpatch.pl /bin
+
+-> Syntax:-
+$checkpatch.pl [OPTION]... [FILE]...
+
+->To see help:-
+ $checkpatch.pl -h
+ 
+ ->To check a file if PWD is not the root of kernel source, use as below.
+ $checkpatch.pl --file --no-tree am335x-bone-common.dtsi
+ 
+ ->To check a file if PWD is root of kernel source, use as below.
+ $./scripts/checkpatch.pl --file <path/of/file/to/be/checked>
+ 
+ ->To verify a patch use --patch command line option, instead of
+ --file.
