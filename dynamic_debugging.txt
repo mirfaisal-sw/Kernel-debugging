@@ -258,4 +258,12 @@
 		print_hex_dump_debug(prefix_str, prefix_type, 16, 1, buf, len, true)
 	#endif
   
+  Note:-
+  If we want to enable dynamic debug to a module say pnp_dabplugin.ko, which is present in path
+  /lib/modules/4.414/kernel/drivers/harman/pnp_plugin/ in target. But its source file was present
+  in path "drivers/harman/pnp_plugin/pnp_dabplugin.c".
+  So, we will use below method to enable dynamic debugging.
+  
+  $cd /sys/kernel/debug/dynamic_debug/
+  $echo "file drivers/harman/pnp_plugin/pnp_dabplugin.c +p" > control
   
