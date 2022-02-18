@@ -4,18 +4,18 @@
 =================================================================
 
 =>  Using Dynamic Debugging facility in linux kernel, we can enable or 
-	disable kernel debug code at runtime to obtain debug log.
+    disable kernel debug code at runtime to obtain debug log.
  
 =>  Kernel APIs used for this be:-
-	->pr_debug(), dev_dbg()
+    ->pr_debug(), dev_dbg()
 	
-	->print_hex_dump_debug(), print_hex_dump_debug_bytes
+    ->print_hex_dump_debug(), print_hex_dump_debug_bytes
 	
 =>  Normally debugging using printk() etc are enabled using defining or 
-	undefining a macro which needs to rebuild the kernel. So it is not 
-	goog or convenient for debugging.
-	Linux has very clever feature called dynamic debugging.
-	If the CONFIG_DYNAMIC_DEBUG option is not set, the above function will turn into
+    undefining a macro which needs to rebuild the kernel. So it is not 
+    good or convenient for debugging.
+    Linux has very clever feature called dynamic debugging.
+    If the CONFIG_DYNAMIC_DEBUG option is not set, the above function will turn into
     a normal printk() statement at the KERN_DEBUG level.
    
     If the option is enabled, the code set aside a special descriptor for every call site, 
