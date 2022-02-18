@@ -267,3 +267,7 @@
   $cd /sys/kernel/debug/dynamic_debug/
   $echo "file drivers/harman/pnp_plugin/pnp_dabplugin.c +p" > control
   
+  Note/Observation:-
+  ==================
+  It is found that if CONFIG_DYNAMIC_DEBUG=y for dynamic debugging but CONFIG_DEBUG_INFO is not set (required for production buid), even then dynamic debugging works.
+  
