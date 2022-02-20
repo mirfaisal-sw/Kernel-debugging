@@ -1,0 +1,39 @@
+==========================================================
+Find address to line number from Panic message
+==========================================================
+
+I. Using gdb list command:-
+----------------------------
+
+EX-1:-
+$arm-linux-gnueabihf-gdb vmlinux
+(gdb) list *(mcp23sxx_spi_read + 0x34)
+O/p - {Source code with line number causing panic.}
+
+Ex-2:-
+$arm-linux-gnueabihf-gdb panic.ko
+(gdb) list *(panic_init + 0x34)
+O/p - {Source code with line number causing panic.}
+
+II. Using addr2line tool:- 
+------------------------------
+Ex-1:-
+$arm-linux-gnueabihf-addr2line -f -e panic.ko panic_init
+O/P  - init_module
+       /home/mir/panic.c:12
+{O/p containing line number in panic.c file where the function
+panic_init is avaialble.}
+
+Ex-2:-
+$arm-linux-gnueabihf-addr2line -f -e panic.ko 0x34     /*0x34 is offset in panic message*/
+O/P  - init_module
+       /home/mir/panic.c:14
+
+Ex-3:-
+$arm-linux-gnueabihf-addr2line -f -e vmlinux 0xc0539c44
+O/P  - mcp23sxx_spi_read
+       /home/linux/drivers/pinctrl/pinctrl/pinctrl-mcp23s08.c:357
+       
+III. Using ./scripts/faddr2line tool:-
+--------------------------------------------
+      
