@@ -62,9 +62,13 @@ Find this file:
 
 To exit CSCOPE use CTRL+Z key.
 
-6)vim go for command:-
+6)vim go for(gf) command:-
 
-Suppose I have opened a source file for example src_code.c and in this there is something #include <linux/mm.h>. So to jump to header file, take the cursor to the header file and press gf in Vim command. Then it will automatically jump to that header file.
+Suppose I have opened a source file for example src_code.c and in this there is something #include <linux/mm.h>. 
+So to jump to header file, take the cursor to the header file and press gf in Vim command. Then it will automatically
+jump to that header file.
+To return back use :bf.
+
 
 
 
