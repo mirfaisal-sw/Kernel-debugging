@@ -1,0 +1,118 @@
+=============================================
+How to debug IIO using direct_reg_access: -
+=============================================
+IIO proposes an optional debugfs entry to access registers. 
+It is up to the IIO device driver to implement it (e.g. debugfs_reg_access()).
+When it is available:
+
+$ cd /sys/kernel/debug/iio/iio:deviceX
+
+To read a register from the device:
+
+$ echo [register offset] > direct_reg_access
+$ cat direct_reg_access
+0xhhhh                  # Register content
+
+To write a register:
+
+$ echo [register offset] [register value] > direct_reg_access
+
+include/linux/iio/iio.h: -
+=============================================
+struct iio_info {
+     struct module           *driver_module;
+     struct attribute_group      *event_attrs;
+     const struct attribute_group    *attrs;
+ 
+     int (*read_raw)(struct iio_dev *indio_dev,
+             struct iio_chan_spec const *chan,
+             int *val,
+             int *val2,
+             long mask);
+ 
+     int (*write_raw)(struct iio_dev *indio_dev,
+              struct iio_chan_spec const *chan,
+              int val,
+              int val2,
+              long mask);
+ 
+  
+     int (*debugfs_reg_access)(struct iio_dev *indio_dev,
+                   unsigned reg, unsigned writeval,
+                   unsigned *readval);
+};
+
+===============
+Implementation
+===============
+
+Source - drivers/iio/adc/stm32-adc.c: -
+=================================================
+/**
+ * stm32_adc_debugfs_reg_access - read or write register value
+ *
+ * To read a value from an ADC register:
+ *   echo [ADC reg offset] > direct_reg_access
+ *   cat direct_reg_access
+ *
+ * To write a value in a ADC register:
+ *   echo [ADC_reg_offset] [value] > direct_reg_access
+ */
+static int stm32_adc_debugfs_reg_access(struct iio_dev *indio_dev,
+                                        unsigned reg, unsigned writeval,
+                                        unsigned *readval)
+{
+        struct stm32_adc *adc = iio_priv(indio_dev);
+
+        if (!readval)
+                stm32_adc_writel(adc, reg, writeval);
+        else
+                *readval = stm32_adc_readl(adc, reg);
+
+        return 0;
+}
+
+/**
+ * STM32 ADC registers access routines
+ * @adc: stm32 adc instance
+ * @reg: reg offset in adc instance
+ *
+ * Note: All instances share same base, with 0x0, 0x100 or 0x200 offset resp.
+ * for adc1, adc2 and adc3.
+ */
+static u32 stm32_adc_readl(struct stm32_adc *adc, u32 reg)
+{
+        return readl_relaxed(adc->common->base + adc->offset + reg);
+}
+
+static void stm32_adc_writel(struct stm32_adc *adc, u32 reg, u32 val)
+{
+         writel_relaxed(val, adc->common->base + adc->offset + reg);
+}
+
+Registration with IIO subsystem
+================================
+static const struct iio_info stm32_adc_iio_info = {
+         .read_raw = stm32_adc_read_raw,
+         .validate_trigger = stm32_adc_validate_trigger,
+         .hwfifo_set_watermark = stm32_adc_set_watermark,
+         .update_scan_mode = stm32_adc_update_scan_mode,
+         .debugfs_reg_access = stm32_adc_debugfs_reg_access,
+         .of_xlate = stm32_adc_of_xlate,
+};
+
+static int stm32_adc_probe(struct platform_device *pdev)
+{
+  .
+  .
+  .
+  indio_dev->name = dev_name(&pdev->dev);
+  indio_dev->dev.parent = &pdev->dev;
+  indio_dev->dev.of_node = pdev->dev.of_node;
+  indio_dev->info = &stm32_adc_iio_info;
+  indio_dev->modes = INDIO_DIRECT_MODE | INDIO_HARDWARE_TRIGGERED;
+  .
+  .
+  .
+}
+         
