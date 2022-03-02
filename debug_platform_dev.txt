@@ -1,0 +1,44 @@
+===============================
+runtime power management
+================================
+Board $> cd /sys/devices/platform/soc/48003000.adc/48003000.adc:adc@0
+Board $> cat power/autosuspend_delay_ms
+2000
+Board $> cat power/control
+auto                                     # kernel is allowed to automatically suspend the ADC device after autosuspend_delay_ms
+Board $> echo on > power/control         # force the kernel to resume the ADC device (e.g. keep clocks and regulators enabled)
+
+======================================================
+clock usage can be verified by reading clk_summary:
+=======================================================
+Board $> cat /sys/kernel/debug/clk/clk_summary | grep adc
+         adc12_k                     1        1        0    24000000          0 0
+                  adc12              1        1        0   196607910          0 0
+
+==================================================================================
+regulator tree and usage can be verified (e.g. use count, open count or regulator
+reference voltage) as follows:
+==================================================================================
+Board $> cat /sys/kernel/debug/regulator/regulator_summary
+ regulator                      use open bypass voltage current     min     max
+-------------------------------------------------------------------------------
+    v3v3                          4    5      0  3300mV     0mA  3300mV  3300mV
+       vdda                       1    2      0  2900mV     0mA  2900mV  2900mV 
+          40017000.dac                                              0mV     0mV
+          48003000.adc                                              0mV     0mV
+          
+          
+=======================================================  
+pinctrl usage can be verified by reading pinmux-pins:
+=======================================================
+Board $> cd /sys/kernel/debug/pinctrl/soc\:pin-controller@50002000/
+Board $> cat pinmux-pins | grep adc
+pin 92 (PF12): device 48003000.adc function analog group PF12   # check pin is assigned to ADC and is configured as "analog"
+
+=======================================================
+interrupts can be verified by reading "interrupts":
+=======================================================
+Board $> cat /proc/interrupts
+           CPU0       CPU1
+ 56:          2          0     dummy   0 Edge      48003000.adc:adc@0
+
