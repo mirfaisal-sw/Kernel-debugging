@@ -1,0 +1,8 @@
+=====================================================================================
+How to get a list of active drivers that are statically built into the linux kernel.
+=====================================================================================
+For this we can read "modules.builtin" file. This file lists all modules that are built
+into the kernel. This is used by modprobe to not fail when trying to load something
+builtin.
+
+$cat /lib/modules/$(uname -r)/modules.builtin
