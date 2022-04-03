@@ -1,0 +1,2 @@
+TODO or prepare a summary note using below URL. 
+Source/URL: - https://wiki.st.com/stm32mpu/wiki/How_to_find_Linux_kernel_driver_associated_to_a_device
