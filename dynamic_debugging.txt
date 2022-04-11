@@ -269,5 +269,6 @@
   
   Note/Observation:-
   ==================
-  It is found that if CONFIG_DYNAMIC_DEBUG=y for dynamic debugging but CONFIG_DEBUG_INFO is not set (required for production buid), even then dynamic debugging works.
+  It is found that if CONFIG_DYNAMIC_DEBUG=y for dynamic debugging but CONFIG_DEBUG_INFO is not set
+  (required for production buid), even then dynamic debugging works.
   
