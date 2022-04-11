@@ -16,4 +16,25 @@
  
  To customize, maximum burst count and the timeout, we can always setup
  our own ratelimit using the DEFINE_RATELIMIT_STATE macro and the __ratelimit
- function
+ function.
+ pr_* equivalents like pr_info_ratelimited for printk_ratelimited(KERN_INFO...
+ and pr_crit_once for printk_once(KERN_CRIT....
+ To use printk_ratelimited(), we have to use #include <kernel/ratelimit.h> in 
+ our code.
+ 
+ Example:-
+ #define MY_RATELIMIT_BURST            2       /* no of messages emitted */
+ #define MY_RATELIMIT_INTERVAL         (30*HZ) /* 30 seconds */
+ 
+ int my_frequent_call_function(void *data)
+ {
+     static DEFINE_RATELIMIT_STATE(my_rl, MY_RATELIMIT_INTERVAL,
+                                          MY_RATELIMIT_BURST);
+                                           
+     if (___ratelimit(&my_rl, "mir_fill_kfifo"))
+         dev_err(&mirspi->spi->dev, "MIR: FIFO is full droping data!\n");
+         
+ }
+
+=> By above setting message will print twice every 30 seconds.
+  
