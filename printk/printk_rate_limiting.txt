@@ -1,0 +1,19 @@
+/*===================================================================
+ Rate limiting and one time messages
+ ====================================================================*/
+ Occasionally, we have to insert debug print statement in code section
+ which gets called quite often. This can not only drop down performance
+ but also can eat away kernel log buffer.
+ 
+ 1) printk_once():-
+ No matter how often we call this function, it prints only once.
+ pr_* equivalents of this function can be pr_crit_once() etc depending on
+ log level.
+ 
+ 2) printk_ratelimited():-
+ printk_ratelimited() prints by default not more than 10 times in every
+ 5 seconds (for each function it is called in).
+ 
+ To customize, maximum burst count and the timeout, we can always setup
+ our own ratelimit using the DEFINE_RATELIMIT_STATE macro and the __ratelimit
+ function
