@@ -1,0 +1,65 @@
+/*==========================================================*
+ * Message logging with printk                              *
+ *==========================================================*/
+  => printk() messages can specify a log level.
+  => All printk() messages are printed to the kernel log buffer, 
+     which is a ring buffer exported to userspace through /dev/kmsg.
+     The usual way to read it is using dmesg.
+     Syntax: printk(KERN_INFO "Message: %s\n", arg);
+             where KERN_INFO is log level.
+             
+   => In Linux there are 10 log levels listed below: -
+      Name              String            Alias function         Priority            
+      ---------------------------------------------------------------------
+      KERN_EMERG           “0”             pr_emerg()            Highest
+      KERN_ALERT           “1”             pr_alert()
+      KERN_CRIT            “2”             pr_crit()
+      KERN_ERR             “3”             pr_err()
+      KERN_WARNING         “4”             pr_warn()
+      KERN_NOTICE          “5”             pr_notice()
+      KERN_INFO            “6”             pr_info()
+      KERN_DEBUG           “7”             pr_debug() and 
+                                           pr_devel() if 
+                                           DEBUG is
+                                           defined
+      KERN_DEFAULT         “”
+      KERN_CONT            “c”             pr_cont()             Lowest
+      
+   => If the message priority is higher (lower log level value) than the
+      console_loglevel the message will be printed to the console.
+      In other words, Only messages with a value lower than the console_loglevel
+      will be printed.
+      
+      If the log level is omitted, the message is printed with KERN_DEFAULT level.
+      We can check the current console_loglevel with:
+
+      $ cat /proc/sys/kernel/printk
+        4        4        1        7
+      The result shows the current, default, minimum and boot-time-default log levels.
+  
+   =>  To change the current console_loglevel simply write the desired level to 
+       /proc/sys/kernel/printk. For example, to print all messages to the console:
+
+       # echo 8 > /proc/sys/kernel/printk
+       
+       We can change the console log level using dmesg with -n parameter.
+       # dmesg -n 5
+       
+       sets the console_loglevel "to print KERN_WARNING (4) or more severe messages
+       to console".
+       
+    => For debugging purposes there are also two conditionally-compiled macros: pr_debug()
+       and pr_devel(), which are compiled-out unless DEBUG (or also CONFIG_DYNAMIC_DEBUG 
+       in the case of pr_debug()) is defined.
+       
+    => Debugging tips: -
+       =================
+       For debugging, most developers leave the console_loglevel unchanged and simply use 
+       KERN_ERR or KERN_CRIT to ensure the message reaches the console.
+       
+       Example: pr_err("REMOVE ME: my debug statement that I swear to remove when I'm done\n");
+       
+       
+  
+     
+  
