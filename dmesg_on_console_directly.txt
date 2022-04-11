@@ -13,3 +13,15 @@
     Board $> dmesg -n 8
     or
     Board $> dmesg -n debug
+    
+Warning: -
+==========
+As all traces are now synchronously emitted, real-time is affected. If we want to
+return to the default console log level, we have to get this default value from the
+procfs entry /proc/sys/kernel/printk:
+
+Board $> cat /proc/sys/kernel/printk
+8	4	1	[7]
+Board $> dmesg -n 7
+Board $> cat /proc/sys/kernel/printk
+[7]	4	1	7
