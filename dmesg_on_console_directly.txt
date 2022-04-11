@@ -1,0 +1,15 @@
+/***************************************************************************
+ * dmesg directly on console without dmesg command                         *
+ ***************************************************************************/
+ In the case of a crash, or impossibility to call dmesg, it is sometimes
+ useful to have traces synchronously emitted on the console. Only error, 
+ warning and informational traces are emitted synchronously on the console
+ (that is, loglevel=5), so if you need to see the lower level traces too, 
+ we need to change the console loglevel to "8".
+ 
+ <enable the conditional traces>
+    Board $> echo 8 > /proc/sys/kernel/printk
+    or
+    Board $> dmesg -n 8
+    or
+    Board $> dmesg -n debug
