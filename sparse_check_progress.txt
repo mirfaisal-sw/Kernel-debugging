@@ -1,0 +1,48 @@
+/*=============================================================
+  Sparse Check
+  =============================================================*/
+  Sparse is a semantic checker for C programs; it can be used 
+  to find a number of potential problems with kernel code.
+  
+  Steps:-
+  =======
+  I. Get the sparse tar ball from - "https://docs.kernel.org/dev-tools/sparse.html"
+  II. Extract the tar ball then compile and install.
+       make
+       make install
+       
+       Note: -
+       If system does not have packages installed then install below packages: -
+       
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  References: -
+  1. https://docs.kernel.org/dev-tools/sparse.html
