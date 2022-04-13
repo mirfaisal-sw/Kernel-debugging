@@ -7,12 +7,27 @@
   Steps:-
   =======
   I. Get the sparse tar ball from - "https://docs.kernel.org/dev-tools/sparse.html"
+  
   II. Extract the tar ball then compile and install.
+       cd path/to/sparse
        make
        make install
        
        Note: -
        If system does not have packages installed then install below packages: -
+       SQLite3 version (3.24.0), gtk3/gtk2
+       
+ III. Running sparse on Linux kernel: -
+      ---------------------------------
+	    $make C=1 -j12 zImage > ../sparse.out 2>&1
+	    $vim  ../sparse.out
+
+	    Note : - Here we can even use C=2
+      
+      Running sparse on modules: -
+      --------------------------------
+      $make C=2 modules  >build_1.out 2>&1
+	    $vim build_1.out    
        
   
   
