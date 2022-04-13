@@ -29,3 +29,20 @@ $checkpatch.pl [OPTION]... [FILE]...
  
  ->To verify a patch use --patch command line option, instead of
  --file.
+
+Note: -
+========
+1) Checkpatch error and solution: -
+a. Error:  code indent should use tabs where possible
+   #80: FILE: drivers/harman/dynamic_spi_node/spi_pinctrl.h:80:
+   +        } reg_bits;$
+   
+   Solution: Go to line number 80 in this file and take the cursor
+   at left of "} re_bits" with just one space between cursor and }.
+   Then press x button in command mode, if it is shifting by one cursor
+   then it means it is indented with sapce character not with tab.
+   So, by pressing x key multiple take the line to left end then press
+   TAB key. It will resolve the error.
+   
+b. 
+
