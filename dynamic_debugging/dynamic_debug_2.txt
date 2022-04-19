@@ -34,6 +34,12 @@ mem: ddc86770: cc cc cc cc c0 69 c8 dd a0 83 20 c1 fa 8e 2a c1  .....i.... ...*.
 
 Example 2: -
 print_hex_dump(KERN_ERR, "MIR: Invalid Packet: ", DUMP_PREFIX_OFFSET,
-               16, 1, dabspi->rx_buf, dabspi->txlen, false);
+               16, 1, rx_buf, len, false);
                
-               
+=======================
+print_hex_dump_debug()
+=======================
+The print_hex_dump_debug() kernel API is the dynamic debug version of print_hex_dump();
+Example: -
+print_hex_dump_debug("PNP_Dabplugin: DAB PLUGIN: REM RX: ",
+					DUMP_PREFIX_OFFSET, 16, 1, rx_buf, pktlen, false);
