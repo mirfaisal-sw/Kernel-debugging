@@ -1,6 +1,5 @@
 =================================================================
 ***********************Dynamic Debugging*************************
-
 =================================================================
 
 =>  Using Dynamic Debugging facility in linux kernel, we can enable or 
@@ -183,81 +182,6 @@
 	Now if we test our driver then whereever in our code dev_dbg(), pr_debug()
 	etc is used will print and will appear in dmesg output.
 	
-=> Kernel code implementation or code extracts:-
-	a) dev_dbg() implementation in linux:-
-	
-	//Enable config_ DYNAMIC_ After debug, it will print dynamically according to the control information
-	#if defined(CONFIG_DYNAMIC_DEBUG)
-	#define dev_dbg(dev, format, ...)		     
-	do {						     
-		dynamic_dev_dbg(dev, format, ##__VA_ARGS__); 
-	} while (0)
-	
-	//Enable DEBUG to print the dev of the whole kernel_ DBG information
-	#elif defined(DEBUG)
-	#define dev_dbg(dev, format, arg...)		
-		dev_printk(KERN_DEBUG, dev, format, ##arg)
-		//None of them, dev_dbg doesn't print anything
-	#else
-	#define dev_dbg(dev, format, arg...)				
-	({								
-		if (0)							
-			dev_printk(KERN_DEBUG, dev, format, ##arg);	
-		0;							
-	})
-	#endif
-	
-	The following dynamic_dev_dbg() implementation obviously shows that printing is based
-	on the descriptor's flag bit_ DPRINTK_FLAGS_PRINT is used to print, and the flag bit 
-	can be controlled by dbgfs.
-
-	#define dynamic_dev_dbg(dev, fmt, ...)				
-	do {								
-		DEFINE_DYNAMIC_DEBUG_METADATA(descriptor, fmt);		
-		if (unlikely(descriptor.flags & _DPRINTK_FLAGS_PRINT))	
-			__dynamic_dev_dbg(&descriptor, dev, fmt,	
-				  ##__VA_ARGS__);		
-	} while (0)
-	
-	
-	b) print_hex_dump_debug():-
-	file - include/linux/prink.h
-	
-	#if defined(CONFIG_DYNAMIC_DEBUG) || \
-	(defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DYNAMIC_DEBUG_MODULE))
-	#define print_hex_dump_debug(prefix_str, prefix_type, rowsize,	\
-			     groupsize, buf, len, ascii)	\
-		dynamic_hex_dump(prefix_str, prefix_type, rowsize,	\
-			 groupsize, buf, len, ascii)
-	#elif defined(DEBUG)
-	#define print_hex_dump_debug(prefix_str, prefix_type, rowsize,		\
-			     groupsize, buf, len, ascii)		\
-	print_hex_dump(KERN_DEBUG, prefix_str, prefix_type, rowsize,	\
-		       groupsize, buf, len, ascii)
-	#else
-	static inline void print_hex_dump_debug(const char *prefix_str, int prefix_type,
-					int rowsize, int groupsize,
-					const void *buf, size_t len, bool ascii)
-	{
-	}
-	#endif
-	
-	/**
-	* print_hex_dump_bytes - shorthand form of print_hex_dump() with default params
-	* @prefix_str: string to prefix each line with;
-	*  caller supplies trailing spaces for alignment if desired
-	* @prefix_type: controls whether prefix of an offset, address, or none
-	*  is printed (%DUMP_PREFIX_OFFSET, %DUMP_PREFIX_ADDRESS, %DUMP_PREFIX_NONE)
-	* @buf: data blob to dump
-	* @len: number of bytes in the @buf
-	*	
-	* Calls print_hex_dump(), with log level of KERN_DEBUG,
-	* rowsize of 16, groupsize of 1, and ASCII output included.
-	*/
-	#define print_hex_dump_bytes(prefix_str, prefix_type, buf, len)	\
-		print_hex_dump_debug(prefix_str, prefix_type, 16, 1, buf, len, true)
-	#endif
-  
   Note:-
   If we want to enable dynamic debug to a module say pnp_dabplugin.ko, which is present in path
   /lib/modules/4.414/kernel/drivers/harman/pnp_plugin/ in target. But its source file was present
