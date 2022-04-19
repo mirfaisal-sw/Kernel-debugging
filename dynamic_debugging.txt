@@ -269,6 +269,8 @@
   
   Note/Observation:-
   ==================
-  It is found that if CONFIG_DYNAMIC_DEBUG=y for dynamic debugging but CONFIG_DEBUG_INFO is not set
-  (required for production buid), even then dynamic debugging works.
+  1)	It is found that if CONFIG_DYNAMIC_DEBUG=y for dynamic debugging but CONFIG_DEBUG_INFO is not set
+  	(required for production buid), even then dynamic debugging works.
+  2)    dev_err() is not controllable as dev_dbg(). It is always enabled, only thing is its first argument
+        is device.
   
