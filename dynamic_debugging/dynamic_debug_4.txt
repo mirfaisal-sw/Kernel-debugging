@@ -1,0 +1,7 @@
+
+EXTRA_CFLAGS += -DDEBUG
+=========================
+
+If we are adding API like print_hex_dump_bytes("Kptr:", DUMP_PREFIX_OFFSET, object, 128); in lnux kernel module, then in Makefile which compiles the module
+should have "EXTRA_CFLAGS += -DDEBUG
+When this is used then it defines "#define DEBUG", in module source code.
