@@ -1,0 +1,9 @@
+1) To debug in U-boot source, we can use below printf() function, it will print
+   current function name and line number in source code.
+
+    printf("%s: %d:\n", __func__, __LINE__);
+    
+2) To debug in kernel source, we can call below function, to get function name and line number
+   in kernel source code.
+   
+   printk("%s: %d:\n", __func__, __LINE__);
