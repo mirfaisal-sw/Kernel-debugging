@@ -1,0 +1,20 @@
+
+1) To see function call back trace in kernel, we call the function dump_stack()
+   in kernel.
+   
+2)  If we are unable to see function call back trace in kernel log due to console log level 
+    settings, then we use dump_stack_lvl().
+    This fuction takes argument of custom console log level, other than system's log level, so 
+    that not to miss stack trace message on kernel log.
+    
+    Example - dump_stack_lvl(KERN_ALERT)
+    Other arguments can be: -
+    KERN_EMERG   = log level - 0
+    KERN_ALERT   = 1
+    KERN_CRIT    = 2
+    KERN_ERR     = 3
+    KERN_WARNING = 4
+    KERN_NOTICE  = 5
+    KERN_INFO    = 6
+    KERN_DEBUG   = 7
+    
