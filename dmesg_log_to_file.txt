@@ -1,3 +1,11 @@
 /*====================================================*/
-To redirect dmesg log to a text file, use below command: -
-$cat /proc/kmsg > log_file_name.txt
+1) To redirect dmesg log to a text file, use below command: -
+    $ cat /proc/kmsg > log_file_name.txt
+    
+2) To clear dmesg log, we use option -c: -
+    $ dmesg -c
+    
+    But above command shows logs along with clearing it, if we do not want to see log,
+    then run below command. 
+    $ dmesg -c > /dev/null
+   
