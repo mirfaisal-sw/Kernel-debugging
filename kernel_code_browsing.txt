@@ -39,6 +39,11 @@ Usage -
     
     Suppose we have an kernel module source file in any folder i.e. helloworld.c.
     Then we can take our cursor on any function and press "Ctrl + }".
+    
+ 6) Other way to run ctags from anywhere is as below.
+    Create file "~/.vimrc" as below with below contents.
+    $ vim ~/.vimrc
+    O/p - set tags=tags;/
 
 ================================================================================
 CSCOPE
