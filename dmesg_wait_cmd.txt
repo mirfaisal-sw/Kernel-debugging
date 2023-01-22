@@ -5,3 +5,8 @@
     which works in OR logic.
     
     # dmesg -w | grep -i -e pcie -e dhd -e MIR 
+    
+2.) To clear kernel log we use "-c" option, but if we run "dmesg -c" option then also it prints 
+    kernel log once. If we want to avoid printing, then we have to redirect message as below.
+    
+    # dmesg -c > /dev/null
