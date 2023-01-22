@@ -1,0 +1,7 @@
+
+
+1.) We can use dmesg command in such a way that it can wait for certain message to come.
+    It is done by using "-w" option. We can grep for more than one string using "-e" option
+    which works in OR logic.
+    
+    # dmesg -w | grep -i -e pcie -e dhd -e MIR 
