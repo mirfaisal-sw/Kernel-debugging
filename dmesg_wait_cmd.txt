@@ -10,3 +10,5 @@
     kernel log once. If we want to avoid printing, then we have to redirect message as below.
     
     # dmesg -c > /dev/null
+    
+    
