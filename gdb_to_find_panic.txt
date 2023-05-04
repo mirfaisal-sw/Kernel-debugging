@@ -69,5 +69,8 @@ Step III. Find the panic causing function.
  
  Now, use addr2line to find line of code as below.
  # addr2line -f -e vmlinux 0xffffffc008dee5f4
+ O/p - sources/kernel/drivers/net/ethernet/stmicro/stmmac/dwmac-sxgmac.c:2246
  
+ If we see line no - 2246 in dwmac-sxgmac.c file, then we can see call of a function - 
+ ret = sxgmac_mcgr_dev_register(pdma_dev);
  
