@@ -1,0 +1,73 @@
+
+
+1. Using vmlinux : -
+-------------------
+
+  # gdb vmlinux
+  (gbd)
+  
+  Ex: - (gdb) list *(dwmac_sxgmac_probe+0xa60)
+  O/p - 2244            if (sxgmac->hpt) 
+        2245                    /* init vlink */
+        2246                    sxgmac_vlink_start(sxgmac);
+        2247                    /* register fixup functions */
+        2248                    priv->plat->open_pre_fixup = sxgmac_open_pre_fixup;
+        2249                    priv->plat->open_post_fixup = sxgmac_open_post_fixup;
+        2250                    priv->plat->release_pre_fixup = sxgmac_release_pre_fixup;
+        2251                    priv->plat->release_post_fixup = sxgmac_release_post_fixup;
+        
+        
+2. Using set substitute-path
+-------------------------------
+For example, the debuggee is compiled in "Funct/src/temp/src", but the sources are in "Funct/src". The debugger needs a 
+substitute path to find the sources.
+
+The set substitute-path command tells the debugger where to find the sources, so the list command displays the source code:
+
+(gdb)  set substitute-path /Funct/src/temp/src /Funct/src
+(gdb)  show substitute-path
+/Funct/src/temp/src  ->  /Funct/src
+(gdb)   
+(gdb)  list main
+16      }
+17
+18      iab2 (na, sum, ivar, nb)
+19          int *na, sum[], *ivar, *nb;
+20      {
+
+3. Debugging .ko file using gdb: -
+----------------------------------
+Step I. Run gdb command to load .ko file.
+# gdb tc9562_pcie_eth.ko
+
+Step II. . As debug symbols are not available, so run file command with object (.o) file.
+# (gdb) file tc9562_pcie_eth.o
+
+Step III. Find the panic causing function.
+        # (gdb) list *(tc9562mac_get_pauseparam+0xd2)
+        Output: -
+0xd5e2 is in tc9562mac_ethtool_op_set_eee (../../../../../../kernel/modules/tc9562mac/tc9562mac_ethtool.c:961).
+956                     priv->tx_lpi_timer = edata->tx_lpi_timer;
+957             }
+958
+959             DBGPR_FUNC_ETHTOOL("<--tc9562mac_ethtool_op_set_eee\n");
+960
+961             return phy_ethtool_set_eee(dev->phydev, edata);
+962     }
+
+4. Debugging using objdump and addr2line: -
+-----------------------------------------------
+ Suppose in kernel log the dump stack is having below output.
+ dwmac_sxgmac_probe+0x90c
+ 
+ From objdump we can find base address of function "dwmac_sxgmac_probe()", as below.
+ # objdump -S vmlinux | grep dwmac_sxgmac_probe
+ O/p - ffffffc008dedb94 <dwmac_sxgmac_probe>:
+ 
+ So, address of dwmac_sxgmac_probe+0x90c be (0xffffffc008dedb94 + 0x90c) i.e.
+ 0xffffffc008dee5f4.
+ 
+ Now, use addr2line to find line of code as below.
+ # addr2line -f -e vmlinux 0xffffffc008dee5f4
+ 
+ 
