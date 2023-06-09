@@ -1,0 +1,17 @@
+
+/*===================================================================*
+ * Enabling dynamic debug for kernel prints which comes at boot time *
+ *===================================================================*/
+ 
+ In order to activate debug messages during the boot process, even before userspace and debugfs exist,
+ use the kernel's command-line parameter: dyndbg.
+ 
+ Update the kernel command line, adding the "dyndbg" parameter: 
+      root=PARTUUID=e91c4e10-16e6-4c0e-bd0e-77becf4a3582 rootwait rw console=ttySTM0,115200 dyndbg="file drivers/usb/core/hub.c +p"
+      
+ Note:
+ -----
+ To display these debug messages in the console, in addition to the dmesg, add loglevel=8 in the kernel command line.
+ Reboot the board and check for a kernel command-line, and that debug messages are present in the dmesg output.
+ 
+ 
