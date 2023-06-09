@@ -14,4 +14,5 @@
  To display these debug messages in the console, in addition to the dmesg, add loglevel=8 in the kernel command line.
  Reboot the board and check for a kernel command-line, and that debug messages are present in the dmesg output.
  
- 
+ Reference: - https://wiki.st.com/stm32mpu/wiki/How_to_use_the_kernel_dynamic_debug
+ -----------
