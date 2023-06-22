@@ -1,0 +1,20 @@
+
+Reference:  - https://wiki.st.com/stm32mpu/wiki/Clock_overview
+-----------
+clock on debugfs: -
+-------------------
+Information on clocks are available in Debugfs interface located in the '/sys/kernel/debug/clk' directory.
+
+Example: - /sys/kernel/debug/clk/usart2_k
+
+
+
+
+
+
+
+
+
+
+
+
