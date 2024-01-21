@@ -1,0 +1,8 @@
+
+
+Command to list built in kernel drivers i.e. other than *.ko files: -
+========================================================================
+
+  # cat /lib/modules/$(uname -r)/modules.builtin
+
+  
